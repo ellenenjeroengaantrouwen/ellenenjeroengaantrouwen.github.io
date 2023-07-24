@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+  <head>
+    <title>
+      Noa's rekenoefeningen
+    </title>
+  </head>
+
+  <body>
+
+
+    <div id="sumContainer">
+
+    </div>
+
+    <div id="button_div">
+      <button type=button>JUIST?</button>
+    </div>
+
+    <div id="feedbackContainer">
+    </div>
+
+    <script>
+
+    /**********
+    * CLASSES *
+    **********/
+      class Sum {
+        constructor(param1, param2){
+          this.param1 = param1;
+          this.param2 = param2;
+        }
+
+        getSolution(){
+          return this.param1 + this.param2;
+        }
+      }
+
+      /**********************
+      * BASIC FUNCTIONALITY *
+      **********************/
+
+      //global variables
+      sums = generateSums();
+      sums_index = 0;
+
+      document.querySelector('button').addEventListener('click', verifyExercise);
+
+
+      generateExercise();
+
+      /************
+      * FUNCTIONS *
+      ************/
+      function verifyExercise(){
+        let sum = sums[sums_index]
+        let input = document.querySelector('input')
+        let input_value = input.value
+
+        let feedback_container = document.querySelector('#feedbackContainer')
+        feedback_container.replaceChildren()
+        if(input_value == sum.getSolution()) {
+          feedback_container.appendChild(document.createTextNode('Goed zo!'))
+          sums_index++;
+          generateExercise();
+        } else{
+          //input.value = '';
+          feedback_container.appendChild(document.createTextNode('Probeer het nog een keer'))
+        }
+      }
+
+      function generateExercise(){
+        sumContainer = document.getElementById("sumContainer");
+
+          let p_count = document.createElement('p');
+          p_count
+          .appendChild(document.createElement('span'))
+          .appendChild(document.createTextNode('oefening ' + (sums_index+1) + ('/') + sums.length))
+
+          let p = document.createElement('p');
+
+          let span_1 = document.createElement('span');
+          let span_2 = document.createElement('span');
+          let span_solution = document.createElement('span');
+
+          let text_param1 = document.createTextNode(sums[sums_index].param1);
+          let text_param2 = document.createTextNode(sums[sums_index].param2);
+
+          let plus_sign = document.createTextNode(" + ");
+          let equal_sign = document.createTextNode(" = ");
+
+          let input = document.createElement('input');
+          input.addEventListener("keypress", function(event){
+            if(event.key === "Enter"){
+              verifyExercise()
+            }
+          })
+
+          p.appendChild(span_1).appendChild(text_param1)
+          p.appendChild(plus_sign)
+          p.appendChild(span_2).appendChild(text_param2)
+          p.appendChild(equal_sign)
+          p.appendChild(span_solution).appendChild(input)
+
+          sumContainer.replaceChildren();
+          sumContainer.appendChild(p_count);
+          sumContainer.appendChild(p);
+
+          input.focus();
+      }
+
+
+      function generateSums(max=25, number_of_sums=10){
+        const max_rand = max + 1;
+        let sums = []
+        for(counter=0; counter < number_of_sums; counter++){
+          let sum = new Sum(Math.floor(Math.random() * max_rand), Math.floor(Math.random() * max_rand))
+          // make sure we don't offer sums which cannot be solved
+          while(sum.getSolution() > max){
+            sum = new Sum(Math.floor(Math.random() * max_rand), Math.floor(Math.random() * max_rand))
+          }
+          sums.push(sum)
+        }
+        return sums;
+      }
+
+
+
+    </script>
+
+  <body>
+
+</html>
