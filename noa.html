@@ -8,7 +8,6 @@
 
   <body>
 
-
     <div id="sumContainer">
 
     </div>
@@ -44,6 +43,8 @@
       sums = generateSums();
       sums_index = 0;
 
+      const correct_messages = ['Prima!', 'Goed zo!', 'Perfect!', 'Goed bezig!']
+
       document.querySelector('button').addEventListener('click', verifyExercise);
 
 
@@ -60,7 +61,8 @@
         let feedback_container = document.querySelector('#feedbackContainer')
         feedback_container.replaceChildren()
         if(input_value == sum.getSolution()) {
-          feedback_container.appendChild(document.createTextNode('Goed zo!'))
+          let message = correct_messages[Math.floor(Math.random() * correct_messages.length)]
+          feedback_container.appendChild(document.createTextNode(message))
           sums_index++;
           generateExercise();
         } else{
@@ -124,10 +126,6 @@
         return sums;
       }
 
-
-
     </script>
-
   <body>
-
 </html>
